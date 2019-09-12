@@ -6,7 +6,7 @@ require "pragmatic_ql/version"
 Gem::Specification.new do |spec|
   spec.name          = "pragmatic_ql"
   spec.version       = PragmaticQL::VERSION
-  spec.authors       = ["Tomas Valent", "Charlie Tarr", "Rene Ivanov", "Anas Alaoui", "Alexander Sidorenko" ]
+  spec.authors       = ["Tomas Valent", "Charlie Tarr", "Rene Ivanov", "Anas Alaoui", "Alexander Sidorenko", "Matthijs Hovelynck"]
   spec.email         = ["equivalent@eq8.eu"]
 
   spec.summary       = %q{Simple query language for JSON based APIs}
