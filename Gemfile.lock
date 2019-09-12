@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pragmatic_ql (0.1.0)
+    pragmatic_ql (0.1.0.1)
       activesupport (> 4)
 
 GEM
@@ -35,7 +35,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    zeitwerk (2.1.9)
+    zeitwerk (2.1.10)
 
 PLATFORMS
   ruby
