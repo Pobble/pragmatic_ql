@@ -23,7 +23,7 @@ end
 
 ```ruby
 # app/model/image.rb
-class image < ApplicationRecord
+class Image < ApplicationRecord
   # model has fields: "id", "priority", "work_id"
 
   belongs_to :work
@@ -82,7 +82,7 @@ class StudentSerializer
 
   private
 
-  # feel free to group multiple fields uder one include key
+  # feel free to group multiple fields uder one include key as long as they make Domain and performance sense
   def name_hash
     {
        first_name: student.first_name,
@@ -306,3 +306,4 @@ When you query `/students/123?include=student.name,student.work_list,student.wor
   ]
 }
 ```
+
