@@ -27,9 +27,9 @@ class StudentsController < ApplicationController
     resp.merge!({
       first_name: student.first_name,
       last_name: student.last_name
-    }) if student_im.include?(:names)
+    }) if student_im.inclusive_of(:names)
 
-    resp.merge!(date_of_birth: student.first_name) if student_im.include?(:dob)
+    resp.merge!(date_of_birth: student.first_name) if student_im.include(:dob)
 
     render json: resp
   end
