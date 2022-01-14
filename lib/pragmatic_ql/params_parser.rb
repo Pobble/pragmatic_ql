@@ -31,6 +31,7 @@ module PragmaticQL
     def include_hash
       return {} if include_string.blank?
       include_list = include_string
+        .gsub(/\s/, '')
         .split(',')
         .map { |con| con.split('.') }
 

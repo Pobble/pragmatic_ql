@@ -27,6 +27,26 @@ RSpec.describe PragmaticQL::ParamsParser do
       end
     end
 
+    context 'when include_string includes whitespaces' do
+      let(:include_string) do
+        "\naccount.names,\r\n account.email_identity  .email"
+      end
+
+      it do
+        expect(include_model).not_to be_empty
+        expect(include_model).to be_inclusive_of(:account)
+
+        account_im = include_model.for(:account)
+        expect(account_im).to be_inclusive_of(:names)
+
+        account_im = include_model.for(:account)
+        expect(account_im).to be_inclusive_of(:email_identity)
+
+        account_email_identity_im = account_im.for(:email_identity)
+        expect(account_email_identity_im).to be_inclusive_of(:email)
+      end
+    end
+
     context 'when comprehensive include_string' do
       let(:include_string) do
         'other_meta,account.names,account.email_identity.email,' +
