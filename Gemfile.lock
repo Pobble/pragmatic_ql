@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pragmatic_ql (0.2)
+    pragmatic_ql (0.3)
       activesupport (> 4)
 
 GEM
@@ -46,4 +46,4 @@ DEPENDENCIES
   rspec (~> 3.0)
 
 BUNDLED WITH
-   2.2.17
+   2.3.0
