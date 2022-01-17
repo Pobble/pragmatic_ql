@@ -38,6 +38,16 @@ module PragmaticQL
       "<#IncludeModel #{@include_hash.inspect}>"
     end
 
+    def to_h
+      @include_hash
+    end
+
+    def to_s
+      ary = []
+      build_include_string(@include_hash, nil, ary)
+      ary.join(',')
+    end
+
     def or(other)
       hooks.each { |hook| hook.or(other) }
       self.empty? ? other : self
@@ -46,5 +56,17 @@ module PragmaticQL
     def level_keys
       @include_hash.keys
     end
+
+    private
+      def build_include_string(node, key, ary)
+        node.each do |k, v|
+          new_key = [key, k.to_s].compact.join('.')
+          if v.any?
+            build_include_string(v, new_key, ary)
+          else
+            ary << new_key
+          end
+        end
+      end
   end
 end

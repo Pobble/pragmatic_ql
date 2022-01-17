@@ -45,6 +45,12 @@ RSpec.describe PragmaticQL::ParamsParser do
         account_email_identity_im = account_im.for(:email_identity)
         expect(account_email_identity_im).to be_inclusive_of(:email)
       end
+
+      describe '#to_s' do
+        it do
+          expect(include_model.to_s).to eq('account.names,account.email_identity.email')
+        end
+      end
     end
 
     context 'when comprehensive include_string' do
@@ -90,6 +96,40 @@ RSpec.describe PragmaticQL::ParamsParser do
         account_im = include_model.for('account')
         expect(account_im).to be_inclusive_of('names')
       end
+
+      describe '#to_s' do
+        it do
+          expect(include_model.to_s).to eq(include_string)
+          expect(include_model.for(:account).to_s).to eq("names,email_identity.email,email_identity.title")
+          expect(include_model.for(:account).for(:email_identity).to_s).to eq("email,title")
+          expect(include_model.for(:account).for(:email_identity).for(:email).to_s).to eq("")
+
+          expect(include_model.for(:other_meta).to_s).to eq("")
+          expect(include_model.for(:not_existing).to_s).to eq("")
+        end
+      end
+
+      describe '#to_h' do
+        it do
+          expect(include_model.to_h).to match({
+            :account => {:email_identity=>{:email=>{}, :title=>{}}, :names=>{}},
+            :lesson => {:works=>{}},
+            :other_meta => {},
+          })
+          expect(include_model.for(:account).to_h).to match({
+            :email_identity => {:email=>{}, :title=>{}},
+            :names => {},
+          })
+          expect(include_model.for(:account).for(:email_identity).to_h).to match({
+            :email => {},
+            :title => {},
+          })
+          expect(include_model.for(:account).for(:email_identity).for(:email).to_h).to eq({})
+
+          expect(include_model.for(:other_meta).to_h).to eq({})
+          expect(include_model.for(:not_existing).to_h).to eq({})
+        end
+      end
     end
 
     describe 'pagination' do
@@ -106,6 +146,15 @@ RSpec.describe PragmaticQL::ParamsParser do
         it { expect(works_im.pagination.page).to eq 2 }
         it { expect(works_im.pagination.limit).to eq 10 }
         it { expect(works_im.pagination.order).to eq :desc }
+
+        describe '#to_s' do
+          it do
+            expect(include_model.to_s).to eq(include_string)
+            expect(include_model.for(:lesson).to_s).to eq('works.page.2,works.limit.10,works.order.desc')
+            expect(include_model.for(:lesson).for(:works).to_s).to eq('page.2,limit.10,order.desc')
+            expect(include_model.for(:lesson).for(:works).for(:page).to_s).to eq('2')
+          end
+        end
       end
 
       context 'when include_string with default pagination' do
@@ -118,6 +167,12 @@ RSpec.describe PragmaticQL::ParamsParser do
         it { expect(works_im.pagination.page).to eq 1 }
         it { expect(works_im.pagination.limit).to eq 50 }
         it { expect(works_im.pagination.order).to eq :asc }
+
+        describe '#to_s' do
+          it do
+            expect(include_model.to_s).to eq(include_string)
+          end
+        end
       end
 
       context 'when include_string with not recognized pagination values' do
